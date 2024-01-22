@@ -56,7 +56,7 @@ const praticlesOptions = {
 const initialState = { 
     input: '',
     imageURL: '',
-    box: {},
+    boxes: [],
     route: 'signin',
     isSignedIn: false,
     user: {
@@ -89,8 +89,8 @@ class App extends Component {
         }})
     }
 
-    displayFaceBox = (box) => {
-        this.setState({box: box});
+    displayFaceBoxes = (boxes) => {
+        this.setState({boxes: boxes});
     }
 
     onInputChange = (event) => {
@@ -123,7 +123,7 @@ class App extends Component {
                     })
                     .catch(console.log)
                 }
-                this.displayFaceBox(this.calculateFaceLocation(result));
+                this.displayFaceBoxes(this.calculateFacesLocation(result));
             })
             .catch(error => console.log('error', error));
 }          
@@ -137,22 +137,25 @@ class App extends Component {
         this.setState({route: route});
       }
 
-    calculateFaceLocation = data => {
-        const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-        const image = document.getElementById('inputimage');
-        const width = Number(image.width);
-        const height = Number(image.height);
+    calculateFacesLocation = data => {
+        console.log(data)
+        return data.outputs[0].data.regions.map(face => {
+            const clarifaiFace = face.region_info.bounding_box;
+            const image = document.getElementById('inputimage');
+            const width = Number(image.width);
+            const height = Number(image.height);
         
-        return {
-            leftCol: clarifaiFace.left_col * width,
-            topRow: clarifaiFace.top_row * height,
-            rightCol: width - (clarifaiFace.right_col * width),
-            bottomRow: height - (clarifaiFace.bottom_row * height)
-        }
+            return {
+                leftCol: clarifaiFace.left_col * width,
+                topRow: clarifaiFace.top_row * height,
+                rightCol: width - (clarifaiFace.right_col * width),
+                bottomRow: height - (clarifaiFace.bottom_row * height)
+            }
+        })
     }
 
     render(){
-        const { isSignedIn, imageURL, route, box, user } = this.state;
+        const { isSignedIn, imageURL, route, boxes, user } = this.state;
         return (
         <div className="App">
             
@@ -170,7 +173,7 @@ class App extends Component {
                 onInputChange={this.onInputChange} 
                 onButtonSubmit={this.onButtonSubmit}
             /> 
-            <FaceRecognition box={box} imageURL={imageURL}/>
+            <FaceRecognition boxes={boxes} imageURL={imageURL}/>
             </>
             :(
                 route === 'signin' 
