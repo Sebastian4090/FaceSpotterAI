@@ -8,6 +8,8 @@ import Register from '../components/Register/Register';
 import Logo from '../components/Logo/Logo';
 import ImageLinkForm from '../components/ImageLinkForm/ImageLinkForm';
 import Rank from '../components/Rank/Rank';
+import Modal from '../components/Modal/Modal'
+import Profile from '../components/Profile/Profile'
 import './App.css';
 
 const praticlesOptions = {
@@ -59,12 +61,17 @@ const initialState = {
     boxes: [],
     route: 'signin',
     isSignedIn: false,
+    isProfileOpen: false,
     user: {
         id: '',
         name: '',
         email: '',
         entries: 0,
-        joined: ''
+        joined: '',
+        pet: '',
+        age: '',
+        customicon: '',
+        defaultIcon: ''
     }
 
 }
@@ -73,6 +80,39 @@ class App extends Component {
     constructor(){
         super();
         this.state = initialState;
+    }
+
+    componentDidMount() {
+        const token = window.sessionStorage.getItem('token');
+        if (token) {
+            fetch('https://facespotterai-api.onrender.com/signin', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.id) {
+                    fetch(`https://facespotterai-api.onrender.com/profile/${data.id}`, {
+                        method: 'get',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(user => {
+                        if (user && user.email) {
+                            this.loadUser(user);
+                            this.onRouteChange('home');
+                        }
+                    })
+                }
+            })
+            .catch(console.log)
+        }
     }
 
     async customInit(engine) {
@@ -85,12 +125,18 @@ class App extends Component {
             name: data.name,
             email: data.email,
             entries: data.entries,
-            joined: data.joined
+            joined: data.joined,
+            age: data.age,
+            pet: data.pet,
+            customicon: data.customicon,
+            defaultIcon: 'https://cdn1.iconfinder.com/data/icons/ui-essential-17/32/UI_Essential_Outline_1_essential-app-ui-avatar-profile-user-account-256.png'
         }})
     }
 
     displayFaceBoxes = (boxes) => {
-        this.setState({boxes: boxes});
+        if (boxes) {
+            this.setState({boxes: boxes});
+        }
     }
 
     onInputChange = (event) => {
@@ -102,7 +148,10 @@ class App extends Component {
 
         fetch('https://facespotterai-api.onrender.com/imageurl', {
             method:'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.sessionStorage.getItem('token')      
+            },
             body: JSON.stringify({
                 input: this.state.input
             })
@@ -112,7 +161,10 @@ class App extends Component {
             if (result){
                 fetch('https://facespotterai-api.onrender.com/image', {
                     method:'put',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': window.sessionStorage.getItem('token')                       
+                    },
                     body: JSON.stringify({
                         id: this.state.user.id
                     })
@@ -130,7 +182,8 @@ class App extends Component {
 
     onRouteChange = (route) => {
         if (route === 'signout') {
-          this.setState(initialState)
+        window.sessionStorage.removeItem('token');
+          return this.setState(initialState)
         } else if (route === 'home') {
           this.setState({isSignedIn: true})
         }
@@ -138,32 +191,51 @@ class App extends Component {
       }
 
     calculateFacesLocation = data => {
-        return data.outputs[0].data.regions.map(face => {
-            const clarifaiFace = face.region_info.bounding_box;
-            const image = document.getElementById('inputimage');
-            const width = Number(image.width);
-            const height = Number(image.height);
-        
-            return {
-                leftCol: clarifaiFace.left_col * width,
-                topRow: clarifaiFace.top_row * height,
-                rightCol: width - (clarifaiFace.right_col * width),
-                bottomRow: height - (clarifaiFace.bottom_row * height)
-            }
-        })
+        if (data && data.outputs) {
+            return data.outputs[0].data.regions.map(face => {
+                const clarifaiFace = face.region_info.bounding_box;
+                const image = document.getElementById('inputimage');
+                const width = Number(image.width);
+                const height = Number(image.height);
+            
+                return {
+                    leftCol: clarifaiFace.left_col * width,
+                    topRow: clarifaiFace.top_row * height,
+                    rightCol: width - (clarifaiFace.right_col * width),
+                    bottomRow: height - (clarifaiFace.bottom_row * height)
+                }
+            })
+        }
+        return;
+    }
+
+    toggleModal = () => {
+        this.setState(prevState => ({
+            isProfileOpen: !this.state.isProfileOpen
+        }))
     }
 
     render(){
-        const { isSignedIn, imageURL, route, boxes, user } = this.state;
+        const { isSignedIn, imageURL, route, boxes, user, isProfileOpen } = this.state;
         return (
         <div className="App">
             
-            <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+            <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}
+                toggleModal={this.toggleModal} user={user}/>
             <Particles className='particles'
                 id="tsparticles"
                 init={this.customInit}
                 options={praticlesOptions}
+                
             />
+            {isProfileOpen && 
+                <Modal>
+                    <Profile
+                     isProfileOpen={isProfileOpen} 
+                     toggleModal={this.toggleModal}
+                     loadUser={this.loadUser}
+                     user={user} />
+                </Modal>}
             { route === 'home' 
             ?  <> 
             <Logo  />
