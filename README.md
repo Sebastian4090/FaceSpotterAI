@@ -11,6 +11,6 @@ And all of this is hosted on render
 To start:
 1. Just use my website: https://facespotterai.onrender.com/
 
-**Keep in mind that registering/signin in may take some time due to the free hosting limitations!**
+**Keep in mind that registering/signing in may take some time due to the free hosting limitations!**
 
 Last Updated: 12.02.2024
