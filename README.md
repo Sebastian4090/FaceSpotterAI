@@ -1,5 +1,5 @@
 # FaceSpotterAI
-Spots and marks face on picture you give address to!
+Spots and marks faces on picture you enter url address to!
 
 
 To start:
