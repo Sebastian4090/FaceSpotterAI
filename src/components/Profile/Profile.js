@@ -33,7 +33,6 @@ class Profile extends React.Component {
     }
 
     onProfileUpdate = (data) => {
-        console.log(this.state.name, this.state.age, this.state.pet, this.state.customicon)
         fetch(`https://facespotterai-api.onrender.com/profile/${this.props.user.id}`, {
             method: 'post',
             headers: {
