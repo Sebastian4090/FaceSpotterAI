@@ -1,5 +1,5 @@
 # FaceSpotterAI
-Spots and marks faces on picture you enter url address to!
+Spots and marks faces on your picture!<br/>
 This website is using jwt tokens, so you don't have to log in after refreshing page.
 
 I developed this using:<br/>
