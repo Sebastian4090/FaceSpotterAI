@@ -21,8 +21,12 @@ class Register extends React.Component {
     this.setState({password: event.target.value})
   }
 
+  saveAuthTokenInSession = (token) => {
+    window.sessionStorage.setItem('token', token);
+  }
+
   onSubmitSignIn = () => {
-    fetch('https://facespotterai-api.onrender.com/register', {
+    fetch(`${process.env.REACT_APP_FETCH}/register`, {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -31,13 +35,25 @@ class Register extends React.Component {
         password: this.state.password
       })
     }).then(response => response.json())
+      .then(data => {
+        if (data.userId && data.success === 'true') {
+          this.saveAuthTokenInSession(data.token)
+            fetch(`${process.env.REACT_APP_FETCH}/profile/${data.userId}`, {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': data.token
+              }
+          })
+      .then(response => response.json())
       .then(user => {
         if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange('home');
         }
       })
-  }
+      .catch(err => console.log)
+    }})}
 
   render() {
     return (

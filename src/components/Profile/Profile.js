@@ -33,7 +33,7 @@ class Profile extends React.Component {
     }
 
     onProfileUpdate = (data) => {
-        fetch(`https://facespotterai-api.onrender.com/profile/${this.props.user.id}`, {
+        fetch(`${process.env.REACT_APP_FETCH}/profile/${this.props.user.id}`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
