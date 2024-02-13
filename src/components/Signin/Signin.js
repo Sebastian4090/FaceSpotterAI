@@ -22,7 +22,7 @@ class Signin extends React.Component {
   }
 
   onSubmitSignIn = () => {
-    fetch('https://facespotterai-api.onrender.com/signin', {
+    fetch(`${process.env.REACT_APP_FETCH}/signin`, {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -33,7 +33,7 @@ class Signin extends React.Component {
       .then(data => {
         if (data.userId && data.success === 'true') {
           this.saveAuthTokenInSession(data.token)
-              fetch(`https://facespotterai-api.onrender.com/profile/${data.userId}`, {
+              fetch(`${process.env.REACT_APP_FETCH}/profile/${data.userId}`, {
                   method: 'get',
                   headers: {
                       'Content-Type': 'application/json',

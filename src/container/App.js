@@ -85,7 +85,7 @@ class App extends Component {
     componentDidMount() {
         const token = window.sessionStorage.getItem('token');
         if (token) {
-            fetch('https://facespotterai-api.onrender.com/signin', {
+            fetch(`${process.env.REACT_APP_FETCH}/signin`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ class App extends Component {
             .then(res => res.json())
             .then(data => {
                 if (data && data.id) {
-                    fetch(`https://facespotterai-api.onrender.com/profile/${data.id}`, {
+                    fetch(`${process.env.REACT_APP_FETCH}/profile/${data.id}`, {
                         method: 'get',
                         headers: {
                             'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ class App extends Component {
     onButtonSubmit = () => {
         this.setState({imageURL: this.state.input});
 
-        fetch('https://facespotterai-api.onrender.com/imageurl', {
+        fetch(`${process.env.REACT_APP_FETCH}/imageurl`, {
             method:'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ class App extends Component {
         .then(response => response.json())
         .then(result => {
             if (result){
-                fetch('https://facespotterai-api.onrender.com/image', {
+                fetch(`${process.env.REACT_APP_FETCH}/image`, {
                     method:'put',
                     headers: {
                         'Content-Type': 'application/json',
