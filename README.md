@@ -3,7 +3,7 @@ Spots and marks faces on your picture!<br/>
 This website is using jwt tokens, so you don't have to log in after refreshing page.
 
 I developed this using:<br/>
-[![List](https://skillicons.dev/icons?i=js,react,nodejs,express,postgres,redis,docker,postman)](https://skillicons.dev) <br/>
+[![List](https://skillicons.dev/icons?i=js,react,nodejs,express,postgres,redis,docker,postman,bootstrap)](https://skillicons.dev) <br/>
 And [Clarifai face-detection API](https://clarifai.com/clarifai/main/models/face-detection) <br/>
 
 And all of this is hosted on render
