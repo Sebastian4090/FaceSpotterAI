@@ -13,4 +13,4 @@ To start:
 
 **Keep in mind that registering/signing in may take some time due to the free hosting limitations!**
 
-Last Updated: 12.02.2024
+Last Updated: 13.02.2024
