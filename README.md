@@ -6,6 +6,10 @@ I developed this using:<br/>
 [![List](https://skillicons.dev/icons?i=js,react,nodejs,express,postgres,redis,docker,aws,postman,bootstrap)](https://skillicons.dev) <br/>
 And [Clarifai face-detection API](https://clarifai.com/clarifai/main/models/face-detection) <br/>
 
+[![List](https://skillicons.dev/icons?i=postgres)](https://skillicons.dev) Used for storing user data<br/>
+[![List](https://skillicons.dev/icons?i=redis)](https://skillicons.dev) Used for storing JWT tokens<br/>
+[![List](https://skillicons.dev/icons?i=aws)](https://skillicons.dev) Lambda used in ranking system<br/>
+
 And all of this is hosted on render
 
 To start:
