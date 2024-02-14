@@ -10,7 +10,7 @@ And [Clarifai face-detection API](https://clarifai.com/clarifai/main/models/face
 [![List](https://skillicons.dev/icons?i=redis)](https://skillicons.dev) Used for storing JWT tokens<br/>
 [![List](https://skillicons.dev/icons?i=aws)](https://skillicons.dev) Lambda used in ranking system<br/>
 
-And all of this is hosted on render
+And all of this is hosted on [Render](https://render.com/)
 
 To start:
 1. Just use my website: https://facespotterai.onrender.com/
