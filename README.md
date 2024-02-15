@@ -17,4 +17,4 @@ To start:
 
 **Keep in mind that registering/signing in may take some time due to the free hosting limitations!** (up to 50s delay)
 
-Last Updated: 14.02.2024
+Last Updated: 15.02.2024
