@@ -59,6 +59,7 @@ const initialState = {
     input: '',
     imageURL: '',
     boxes: [],
+    faces: 0,
     route: 'signin',
     isSignedIn: false,
     isProfileOpen: false,
@@ -135,7 +136,7 @@ class App extends Component {
 
     displayFaceBoxes = (boxes) => {
         if (boxes) {
-            this.setState({boxes: boxes});
+            this.setState({boxes: boxes, faces: boxes.length});
         }
     }
 
@@ -216,7 +217,7 @@ class App extends Component {
     }
 
     render(){
-        const { isSignedIn, imageURL, route, boxes, user, isProfileOpen } = this.state;
+        const { isSignedIn, imageURL, route, boxes, user, isProfileOpen, faces } = this.state;
         return (
         <div className="App">
             
@@ -243,6 +244,7 @@ class App extends Component {
             <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onButtonSubmit={this.onButtonSubmit}
+                faces={faces}
             /> 
             <FaceRecognition boxes={boxes} imageURL={imageURL}/>
             </>
