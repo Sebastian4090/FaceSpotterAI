@@ -7,7 +7,7 @@ This website is using jwt tokens, so you don't have to log in after refreshing p
 
 # Status
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Ffacespotterai.onrender.com%2F)
-![Server](https://img.shields.io/website?url=https%3A%2F%2Ffacespotterai-api.onrender.com&label=server)
+<-- ![Server](https://img.shields.io/website?url=https%3A%2F%2Ffacespotterai-api.onrender.com&label=server) -->
 
 
 # Developed this using
